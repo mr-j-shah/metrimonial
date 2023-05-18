@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "594648943611",
+    "project_id": "validate-6747a",
+    "storage_bucket": "validate-6747a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594648943611:android:960150d20729958d0f995e",
+        "android_client_info": {
+          "package_name": "com.metromenial.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594648943611-0u92qn922o1r624hdr172lmhtlfincub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metromenial.app",
+            "certificate_hash": "55f98f6f656dc47f86b32b295e33ffd651bc9e1d"
+          }
+        },
+        {
+          "client_id": "594648943611-pocl5r4rgnm4905av34b8ibi4kvtdrnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metromenial.app",
+            "certificate_hash": "63e841826ab420a667570608db7b14cbcdd445b8"
+          }
+        },
+        {
+          "client_id": "594648943611-solfrekc7daummkaedk2o26hnp5tjint.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metromenial.app",
+            "certificate_hash": "e1597073ad217b76bffa40b94e931ca8b225c5c7"
+          }
+        },
+        {
+          "client_id": "594648943611-alpfm46oqs8r78j92o0k2in34eie14bv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvcRSelGyc0an-xfTFChxRZQoRSIE1ksk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594648943611-alpfm46oqs8r78j92o0k2in34eie14bv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "594648943611-k3rc0icm5ne66r1upqcjlicih3f4aqma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.metromenial.app",
+                "app_store_id": "1661216747"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

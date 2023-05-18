@@ -1,0 +1,32 @@
+enum AppStates {
+  manageProfile,
+  presentAddress,
+  partnerPreference,
+  basicInfo,
+  languageState,
+  permanentAddress,
+  advancedSearch,
+}
+
+enum Reset {
+  chatList,
+  chatDetailsList,
+  home,
+  explore,
+  myInterestList,
+  interestRequestList,
+  referralEarningList,
+  referralUserList,
+  referralHistoryRequestList,
+  ignoreList,
+  exploreList,
+  shortList,
+  myWallet,
+  publicProfile,
+  packageDetails,
+  packageHistory,
+  packageList,
+  myGallery,
+  paymentTypes,
+  blogList,
+}
