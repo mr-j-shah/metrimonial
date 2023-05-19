@@ -51,8 +51,8 @@ class _MyAppState extends State<MyApp> {
           Locale('en', ''), // English, no country code
           // Locale('es', ''), // Spanish, no country code
         ],
-        // home: SplashScreen(),
-        home: KYCScreen(),
+        home: SplashScreen(),
+        // home: KYCScreen(),
       ),
     );
   }

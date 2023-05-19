@@ -165,6 +165,8 @@ class KYCScreen extends StatelessWidget {
       );
 
       print("startOnfido response :: $response");
+
+      onfido.startWorkflow("f65f6747-2961-43c7-a742-23e77b13f9a3");
     } catch (error) {
       print("startOnfido error :: $error");
     }

@@ -43,6 +43,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:one_context/one_context.dart';
 
+import '../kyc/kycstatus.dart';
+
 class Account extends StatefulWidget {
   // final person;
 
@@ -176,6 +178,12 @@ class _AccountState extends State<Account> {
         isSmallScreen: false,
         text: "Ref.. Wallet",
       ),
+    GridSquareCard(
+      onpressed: statuscheck(),
+      icon: "icon_love.png",
+      isSmallScreen: false,
+      text: "KYC",
+    ),
   ];
 
   void fnc_deactivate(deactivate, items) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:active_matrimonial_flutter_app/const/my_theme.dart';
 import 'package:active_matrimonial_flutter_app/const/style.dart';
 import 'package:active_matrimonial_flutter_app/custom/common_input.dart';
@@ -13,9 +15,11 @@ import 'package:active_matrimonial_flutter_app/screens/auth/signin.dart';
 import 'package:active_matrimonial_flutter_app/screens/core.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:onfido_sdk/onfido_sdk.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key key}) : super(key: key);
 
@@ -46,7 +50,8 @@ class _SignUpState extends State<SignUp> {
   bool check_box = false;
 
   var on_behalves_value;
-
+  String _applicantId;
+  String _sdktoken;
   // gender
 
   // var gendervalue;
@@ -137,7 +142,15 @@ class _SignUpState extends State<SignUp> {
                                   buildAgreeTerms(context),
 
                                   InkWell(
-                                    onTap: () {
+                                    onTap: () async {
+                                      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                      _applicantId = await applicants(
+                                          _firstNameController.text,
+                                          _lastNameController.text);
+                                      await prefs.setString('applicantid', _applicantId);
+                                      _sdktoken = await getsdk(_applicantId);
+                                      startOnfido(_sdktoken);
                                       if (check_box == false) {
                                         MyScaffoldMessenger().sf_messenger(
                                             text:
@@ -857,5 +870,103 @@ class _SignUpState extends State<SignUp> {
         ),
       ],
     );
+  }
+}
+
+startOnfido(String sdktoken) async {
+  try {
+    final Onfido onfido = Onfido(sdkToken: sdktoken);
+    final response = await onfido.start(
+      flowSteps: FlowSteps(
+        proofOfAddress: true,
+        welcome: true,
+        documentCapture: DocumentCapture(
+            documentType: DocumentType.generic, countryCode: CountryCode.IND),
+        faceCapture: FaceCaptureType.photo,
+      ),
+    );
+
+    print("startOnfido response :: $response");
+
+    onfido.startWorkflow("f65f6747-2961-43c7-a742-23e77b13f9a3");
+  } catch (error) {
+    print("startOnfido error :: $error");
+  }
+}
+
+Future<String> applicants(String firstname, String lastname) async {
+  print(firstname);
+  print(lastname);
+  final response = await http.post(
+    Uri.parse('https://api.onfido.com/v3/applicants'),
+    headers: {
+      "Authorization":
+          "Token token=api_live.ZtCnzKJbgwZ.Y58gfvGV0k-nL2fsc7VBXKLCYhG9P8t2",
+      "Content-Type": "application/json"
+    },
+    body: jsonEncode(
+      <String, dynamic>{"first_name": firstname, "last_name": lastname},
+    ),
+  );
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 201) {
+    Map<String, dynamic> resposnsemap = jsonDecode(response.body);
+    print(resposnsemap["id"]);
+    return resposnsemap["id"];
+  } else {
+    return null;
+  }
+}
+
+Future<String> getsdk(String applicant_id) async {
+  final response = await http.post(
+    Uri.parse('https://api.onfido.com/v3/sdk_token'),
+    headers: {
+      "Authorization":
+          "Token token=api_live.ZtCnzKJbgwZ.Y58gfvGV0k-nL2fsc7VBXKLCYhG9P8t2",
+      "Content-Type": "application/json"
+    },
+    body: jsonEncode(
+      <String, dynamic>{
+        "applicant_id": applicant_id,
+        "application_id": "com.metromenial.app"
+      },
+    ),
+  );
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> resposnsemap = jsonDecode(response.body);
+    print(resposnsemap["token"]);
+    return resposnsemap["token"];
+  } else {
+    return null;
+  }
+}
+
+Future<String> check(String applicant_id) async {
+  final response = await http.post(
+    Uri.parse('https://api.eu.onfido.com/v3.6/checks'),
+    headers: {
+      "Authorization":
+          "Token token=api_live.ZtCnzKJbgwZ.Y58gfvGV0k-nL2fsc7VBXKLCYhG9P8t2",
+      "Content-Type": "application/json"
+    },
+    body: jsonEncode(
+      <String, dynamic>{
+        "applicant_id": "6ce39d59-5ee5-4bbd-8038-9d3b964ceaa7",
+        "report_names": ["document", "facial_similarity_photo"]
+      },
+    ),
+  );
+  print(response.statusCode);
+  print(response.body);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> resposnsemap = jsonDecode(response.body);
+    print(resposnsemap["token"]);
+    return resposnsemap["token"];
+  } else {
+    return null;
   }
 }
